@@ -1,19 +1,26 @@
-package com.example.examplemod;
+package org.hogel.minecraft;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hogel.minecraft.items.ModSword;
 
 import java.util.stream.Collectors;
 
@@ -23,6 +30,12 @@ public class ExampleMod
 {
     // Directly reference a log4j logger.
     private static final Logger LOGGER = LogManager.getLogger();
+
+    private static final String MODID = "examplemod";
+
+    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
+
+    public static final RegistryObject<ModSword> SWORD = ITEMS.register("mod_sword", () -> new ModSword(Tiers.NETHERITE, 100, -4.0f, new Item.Properties()));
 
     public ExampleMod() {
         // Register the setup method for modloading
@@ -34,6 +47,10 @@ public class ExampleMod
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
+
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ITEMS.register(modEventBus);
+        LOGGER.info("register!!!!!!");
     }
 
     private void setup(final FMLCommonSetupEvent event)

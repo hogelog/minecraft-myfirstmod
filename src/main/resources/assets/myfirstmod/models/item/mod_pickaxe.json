@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "myfirstmod:item/mod_sword"
+    "layer0": "myfirstmod:item/mod_pickaxe"
   }
 }

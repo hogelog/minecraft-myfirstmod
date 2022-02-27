@@ -1,8 +1,6 @@
 package org.hogel.minecraft;
 
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.world.item.Tiers;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -13,6 +11,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hogel.minecraft.item.ModPickaxeItem;
+import org.hogel.minecraft.item.ModSwordItem;
 
 @Mod("myfirstmod")
 public class ExampleMod {
@@ -22,7 +22,12 @@ public class ExampleMod {
 
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
 
-    public static final RegistryObject<SwordItem> SWORD = ITEMS.register("mod_sword", () -> new SwordItem(Tiers.NETHERITE, 100, -4.0f, new Item.Properties()));
+    public static final RegistryObject<ModSwordItem> ITEM_MOD_SWORD;
+    public static final RegistryObject<ModPickaxeItem> ITEM_MOD_PICKAXE;
+    static {
+        ITEM_MOD_SWORD = ITEMS.register("mod_sword", () -> new ModSwordItem());
+        ITEM_MOD_PICKAXE = ITEMS.register("mod_pickaxe", () -> new ModPickaxeItem());
+    }
 
     public ExampleMod() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
